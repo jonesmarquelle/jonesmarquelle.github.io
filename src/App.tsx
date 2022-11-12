@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ProductCard from './components/ProductCard';
+import { fetchProductById } from './api/fetchProducts';
 
 function App() {
+  const [product, setProduct] = useState<any>();
+
+  useEffect (() => {
+    const productId = Math.floor(Math.random() * 20) + 1;
+    fetchProductById(productId)
+      .then((res) => setProduct(res));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {product && <ProductCard
+            imageUrl={product.image}
+            name={product.title}
+            price={product.price}
+        />}
       </header>
     </div>
   );
