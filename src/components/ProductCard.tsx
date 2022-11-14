@@ -1,12 +1,13 @@
 import React from 'react';
+import { Card, Button } from 'react-bootstrap';
 
-interface ProductCardProps {
-  imageUrl: string,
-  name: string,
+export interface ProductCardProps {
+  image: string,
+  title: string,
   price: number,
 }
 
-const ProductCard = ({ imageUrl, name, price }: ProductCardProps) => {
+export const ProductCard = ({ image, title, price }: ProductCardProps) => {
 
   const priceFormatted = price.toLocaleString('en-US', {
     style: 'currency',
@@ -14,12 +15,15 @@ const ProductCard = ({ imageUrl, name, price }: ProductCardProps) => {
   });
 
   return (
-    <div className="product_card">
-      <img src={imageUrl} alt={name} />
-      <h1>{name}</h1>
-      <p>{priceFormatted}</p>
-    </div>
+    <Card className="product_card">
+      <Card.Img variant= "top" src={image} alt={title} />
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
+          <Card.Text>{priceFormatted}</Card.Text>
+          <Button variant= "primary">Add To Cart</Button>
+        </Card.Body>
+    </Card>
   );
 };
 
-export default ProductCard;
+//export default ProductCard;

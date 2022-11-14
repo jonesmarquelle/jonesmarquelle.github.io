@@ -1,27 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
-import ProductCard from './components/ProductCard';
-import { fetchProductById } from './api/fetchProducts';
+import { Row } from 'react-bootstrap';
+import { ProductCardProps, ProductCard } from './components/ProductCard';
+import { fetchAllProducts } from './api/fetchProducts';
 
 function App() {
-  const [product, setProduct] = useState<any>();
+  const [products, setProducts] = useState([]);
 
-  useEffect (() => {
-    const productId = Math.floor(Math.random() * 20) + 1;
-    fetchProductById(productId)
-      .then((res) => setProduct(res));
+  useEffect(() => {
+    fetchAllProducts()
+      .then((res) => {
+        const productCards = res.map((product: ProductCardProps) =>
+          <ProductCard {...product}/>
+        );
+        setProducts(productCards);
+      })
   }, []);
 
   return (
     <div className="App">
-      <header className="App-header">
-        {product && <ProductCard
-            imageUrl={product.image}
-            name={product.title}
-            price={product.price}
-        />}
-      </header>
+      <Row sm={6} md={4}>
+        {
+        products ? (
+          products
+        ) : null
+        }
+      </Row>
     </div>
   );
 }
